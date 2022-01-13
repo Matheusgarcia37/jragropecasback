@@ -31,9 +31,81 @@ class UserController {
         return res.json(user);
     }
 
+    async alter(req: Request, res: Response) {
+        const { id, username, password } = req.body;
+        try {
+            const user: any = await prisma.user.findUnique({
+                where: { id }
+            })
+            if(user){
+                user.username = username;
+                user.password = await bcrypt.hash(password, 8);
+                await prisma.user.update({
+                    where: {
+                        id
+                    },
+                    data: user
+                });
+                return res.status(200).json({
+                    message: 'User updated'
+                });
+            }else {
+                return res.status(400).json({
+                    error: 'User not found'
+                });
+            }
+        }catch (error) {
+            console.log(error);
+            return res.status(400).json({
+                error: 'User not found'
+            });
+        }
+    }
+
     async index(req: Request, res: Response) {
         const users = await prisma.user.findMany();
         return res.json(users);
+    }
+
+    async getUserById(req: Request, res: Response) {
+        const { id } = req.body;
+        try {
+            const user: any = await prisma.user.findUnique({
+                where: { id }
+            })
+            if(user){
+                delete user.password;
+                return res.status(200).json(user);
+            }else {
+                return res.status(400).json({
+                    error: 'User not found'
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            return res.status(400).json({
+                error: 'User not found'
+            });
+        }
+    }
+    
+    async delete(req: Request, res: Response) {
+        const { id } = req.body;
+        try {
+            await prisma.user.delete({
+                where: {
+                    id
+                }
+            });
+            return res.status(200).json({
+                message: 'User deleted'
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({
+                error: 'User not found'
+            });
+        }
     }
 }
 
