@@ -11,9 +11,30 @@ datasource db {
 }
 
 model User {
-  id          String @id @default(cuid())
-  username    String @unique
-  password    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Produto {
+  id                String   @id @default(cuid())
+  codigo_interno    String   @unique
+  descricao         String
+  codigo_referencia String?
+  aplicacao         String?
+  preco             Float?
+  marca             Marca?    @relation(fields: [marcaId], references: [id], onDelete: SetNull)
+  marcaId           String?   
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Marca {
+  id        String    @id @default(cuid())
+  nome      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Produto   Produto[]
 }
