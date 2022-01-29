@@ -25,10 +25,22 @@ model Produto {
   codigo_referencia String?
   aplicacao         String?
   preco             Float?
-  marca             Marca?    @relation(fields: [marcaId], references: [id], onDelete: SetNull)
-  marcaId           String?   
+  marca             Marca?   @relation(fields: [marcaId], references: [id], onDelete: SetNull)
+  marcaId           String?
+  uploads           Upload[]
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+}
+
+model Upload {
+  id        String   @id @default(cuid())
+  name      String
+  key       String
+  url       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Produto   Produto? @relation(fields: [produtoId], references: [id])
+  produtoId String?
 }
 
 model Marca {
