@@ -25,15 +25,37 @@ class ProdutoController {
             const resProds = [];
             for (let prod of produtos) {
                 const { codigo_interno, descricao, codigo_referencia, aplicacao, marca, preco } = prod;
-                const res = await prisma.produto.create({
-                    data: {
-                        codigo_interno,
-                        descricao,
-                        codigo_referencia,
-                        aplicacao,
+                //procurar um produto com o mesmo codigo interno
+                const produto = await prisma.produto.findUnique({
+                    where: {
+                        codigo_interno
                     }
                 });
-                resProds.push(res);
+
+                if(produto) {
+                    //atualizar o produto
+                    produto.descricao = descricao;
+                    produto.codigo_referencia = codigo_referencia;
+                    produto.aplicacao = aplicacao;
+                    await prisma.produto.update({
+                        where: {
+                            id: produto.id
+                        },
+                        data: produto,
+                    });
+                    resProds.push(produto);
+                } else {
+                    //criar um novo produto
+                    const res = await prisma.produto.create({
+                        data: {
+                            codigo_interno,
+                            descricao,
+                            codigo_referencia,
+                            aplicacao,
+                        }
+                    });
+                    resProds.push(res);
+                }
             }
             return res.status(200).json(resProds);
         } catch (error) {

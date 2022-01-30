@@ -11,7 +11,7 @@ class AuthController {
 
         if (!user) {
             return res.status(400).json({
-                error: 'User not found'
+                error: 'Usuário não encontrado'
             });
         }
 
@@ -19,7 +19,7 @@ class AuthController {
 
         if (!isValidPassword) {
             return res.status(400).json({
-                error: 'Invalid password'
+                error: 'Senha invalida'
             });
         }
 
@@ -47,14 +47,14 @@ class AuthController {
             const user = await prisma.user.findUnique({ where: { id: userId } });
             if (!user) {
                 return res.status(400).json({
-                    error: 'User not found'
+                    error: 'Usuário não encontrado'
                 });
             }
             user.password = undefined as any;
             return res.status(200).json(user);
         } catch (error) {
             return res.status(400).json({
-                error: 'Invalid token'
+                error: 'Token inválido'
             });
         }
     }

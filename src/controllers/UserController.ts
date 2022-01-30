@@ -47,17 +47,17 @@ class UserController {
                     data: user
                 });
                 return res.status(200).json({
-                    message: 'User updated'
+                    message: 'Usuário alterado'
                 });
             }else {
                 return res.status(400).json({
-                    error: 'User not found'
+                    error: 'Usuário não encontrado'
                 });
             }
         }catch (error) {
             console.log(error);
             return res.status(400).json({
-                error: 'User not found'
+                error: 'Usuário não encontrado'
             });
         }
     }
@@ -78,13 +78,13 @@ class UserController {
                 return res.status(200).json(user);
             }else {
                 return res.status(400).json({
-                    error: 'User not found'
+                    error: 'Usuário não encontrado'
                 });
             }
         } catch (error) {
             console.log(error);
             return res.status(400).json({
-                error: 'User not found'
+                error: 'Usuário não encontrado'
             });
         }
     }
@@ -98,12 +98,12 @@ class UserController {
                 }
             });
             return res.status(200).json({
-                message: 'User deleted'
+                message: 'Usuário deletado'
             });
         } catch (error) {
             console.log(error);
             res.status(400).json({
-                error: 'User not found'
+                error: 'Usuário não encontrado'
             });
         }
     }
