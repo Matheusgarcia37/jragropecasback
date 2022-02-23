@@ -24,7 +24,7 @@
     "prisma": "^3.7.0"
   },
   "scripts": {
-    "start": "ts-node --files src/server.ts",
+    "start": "node build/server.js",
     "dev": "nodemon --files src/server.ts"
   }
 }
