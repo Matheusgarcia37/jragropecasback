@@ -8,4 +8,8 @@ import produtoRoutes from './produto.routes';
 
 router.use('/user', userRoutes);
 router.use('/produto', produtoRoutes);
+
+router.get('/', (re, res) => {
+    return res.status(200).send({ message: 'Bem vindo ao app jr-agropecas.' });
+})
 export default router;
