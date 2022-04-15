@@ -11,4 +11,7 @@ const produto_routes_1 = __importDefault(require("./produto.routes"));
 //rotas da aplicação
 router.use('/user', user_routes_1.default);
 router.use('/produto', produto_routes_1.default);
+router.get('/', (re, res) => {
+    return res.status(200).send({ message: 'Bem vindo ao app jr-agropecas.' });
+});
 exports.default = router;
