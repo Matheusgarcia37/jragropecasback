@@ -8,7 +8,7 @@ import produtoRoutes from './produto.routes';
 
 router.use('/user', userRoutes);
 router.use('/produto', produtoRoutes);
-router.use('/', (req, res) => {
+router.get('/', (req, res) => {
    return res.send('Hello World');
 });
    
