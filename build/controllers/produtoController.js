@@ -71,13 +71,14 @@ class ProdutoController {
     store(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { codigo_interno, descricao, codigo_referencia, aplicacao, marca, preco } = req.body;
+                const { codigo_interno, descricao, codigo_referencia, aplicacao, marca, preco, destaque } = req.body;
                 const responseProduto = yield prisma.produto.create({
                     data: {
                         codigo_interno,
                         descricao,
                         codigo_referencia,
                         aplicacao,
+                        destaque: JSON.parse(destaque),
                     }
                 });
                 const { files } = req;
@@ -153,9 +154,30 @@ class ProdutoController {
             }
         });
     }
+    findDestaques(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const produtos = yield prisma.produto.findMany({
+                    where: {
+                        destaque: true
+                    },
+                    include: {
+                        uploads: true
+                    }
+                });
+                return res.status(200).json(produtos);
+            }
+            catch (error) {
+                console.log(error);
+                return res.status(500).json({
+                    error: "Erro ao listar produtos"
+                });
+            }
+        });
+    }
     alter(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id, codigo_interno, descricao, codigo_referencia, aplicacao, marca, preco } = req.body;
+            const { id, codigo_interno, descricao, codigo_referencia, aplicacao, marca, preco, destaque } = req.body;
             const { files } = req;
             try {
                 const produto = yield prisma.produto.findUnique({
@@ -166,6 +188,7 @@ class ProdutoController {
                     produto.descricao = descricao;
                     produto.codigo_referencia = codigo_referencia;
                     produto.aplicacao = aplicacao;
+                    produto.destaque = JSON.parse(destaque);
                     //produto.marca = marca;
                     produto.preco = Number(preco);
                     yield prisma.produto.update({

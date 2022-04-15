@@ -14,6 +14,7 @@ produto.post("/import", authMiddleware_1.default, produtoController_1.default.im
 produto.get("/", produtoController_1.default.index);
 produto.post("/", (0, multer_1.default)(multer_2.default).array('file'), produtoController_1.default.store);
 produto.post("/getProdutoById", produtoController_1.default.getProdutoById);
+produto.get("/destaque", produtoController_1.default.findDestaques);
 produto.put("/", (0, multer_1.default)(multer_2.default).array('file'), produtoController_1.default.alter);
 produto.put("/images", (0, multer_1.default)(multer_2.default).array('file'), produtoController_1.default.alterImagesOfProd);
 produto.delete("/images/:id", produtoController_1.default.deleteImage);
