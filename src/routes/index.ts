@@ -8,4 +8,8 @@ import produtoRoutes from './produto.routes';
 
 router.use('/user', userRoutes);
 router.use('/produto', produtoRoutes);
+router.use('/', (req, res) => {
+    res.send('Hello World');
+});
+   
 export default router;
